@@ -1,13 +1,12 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const productsRouter = require('./routes/products');
+const authRouter = require('./routes/auth');
 const cors = require('cors');
-var app = express();
+const app = express();
 
 app.use(cors())
 // view engine setup
@@ -16,12 +15,13 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// app.use(bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/products', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
